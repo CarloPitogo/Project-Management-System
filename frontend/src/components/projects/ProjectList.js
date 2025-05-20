@@ -11,7 +11,7 @@ const ProjectList = () => {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8000/api/projects', {
+        const response = await axios.get(' https://f0d5-49-146-202-126.ngrok-free.app/api/projects', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProjects(response.data.projects);

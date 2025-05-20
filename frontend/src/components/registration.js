@@ -24,7 +24,7 @@ const Registration = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/register", {
+      const response = await fetch(" https://f0d5-49-146-202-126.ngrok-free.app/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

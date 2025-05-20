@@ -13,7 +13,7 @@ const Navigation = ({ user, onLogout }) => {
     const fetchNotifications = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:8000/api/notifications", {
+        const response = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/notifications", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = response.data;

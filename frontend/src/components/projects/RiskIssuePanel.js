@@ -23,7 +23,7 @@ const RiskIssuePanel = ({ projectId, isOwner }) => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       const res = await axios.get(
-        `http://localhost:8000/api/projects/${projectId}/risks-issues`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${projectId}/risks-issues`,
         { headers }
       );
       setItems(res.data);
@@ -40,7 +40,7 @@ const RiskIssuePanel = ({ projectId, isOwner }) => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       await axios.put(
-        `http://localhost:8000/api/risks-issues/${item.id}`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/risks-issues/${item.id}`,
         { ...item, status: newStatus },
         { headers }
       );
@@ -61,7 +61,7 @@ const RiskIssuePanel = ({ projectId, isOwner }) => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
       const res = await axios.post(
-        `http://localhost:8000/api/projects/${projectId}/risks-issues`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${projectId}/risks-issues`,
         form,
         { headers }
       );

@@ -21,13 +21,13 @@ const Dashboard = ({ onLogout }) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         const projectsResponse = await axios.get(
-          "http://localhost:8000/api/projects?limit=5",
+          " https://f0d5-49-146-202-126.ngrok-free.app/api/projects?limit=5",
           { headers }
         );
         setProjects(projectsResponse.data.projects);
 
         const tasksResponse = await axios.get(
-          "http://localhost:8000/api/tasks?assigned_to_me=1&limit=5",
+          " https://f0d5-49-146-202-126.ngrok-free.app/api/tasks?assigned_to_me=1&limit=5",
           { headers }
         );
         setTasks(tasksResponse.data.tasks);

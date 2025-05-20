@@ -33,7 +33,7 @@ const TaskForm = () => {
 
         if (isEditing) {
           const taskResponse = await axios.get(
-            `http://localhost:8000/api/tasks/${taskId}`,
+            ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`,
             { headers }
           );
           const task = taskResponse.data.task;
@@ -54,14 +54,14 @@ const TaskForm = () => {
 
         if (resolvedProjectId) {
           const membersResponse = await axios.get(
-            `http://localhost:8000/api/projects/${resolvedProjectId}/members`,
+            ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${resolvedProjectId}/members`,
             { headers }
           );
           setUsers(membersResponse.data.members);
         }
 
         const projectsResponse = await axios.get(
-          "http://localhost:8000/api/projects",
+          " https://f0d5-49-146-202-126.ngrok-free.app/api/projects",
           { headers }
         );
         setProjects(projectsResponse.data.projects);
@@ -89,8 +89,8 @@ const TaskForm = () => {
       const token = localStorage.getItem("token");
       const method = isEditing ? "put" : "post";
       const url = isEditing
-        ? `http://localhost:8000/api/tasks/${taskId}`
-        : "http://localhost:8000/api/tasks";
+        ? ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`
+        : " https://f0d5-49-146-202-126.ngrok-free.app/api/tasks";
 
       await axios({
         method,

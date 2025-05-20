@@ -19,7 +19,7 @@ const AddExpenditure = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:8000/api/projects/${id}/expenditures`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`,
         {
           amount,
           description,

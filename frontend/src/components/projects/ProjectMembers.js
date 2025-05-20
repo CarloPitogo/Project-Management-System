@@ -21,9 +21,9 @@ const ProjectMembers = () => {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [membersRes, usersRes, projectRes] = await Promise.all([
-          axios.get(`http://localhost:8000/api/projects/${id}/members`, { headers }),
-          axios.get("http://localhost:8000/api/users", { headers }),
-          axios.get(`http://localhost:8000/api/projects/${id}`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers }),
+          axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/users", { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
         ]);
 
         setMembers(membersRes.data.members);
@@ -32,7 +32,7 @@ const ProjectMembers = () => {
         setProjectName(project.name);
         setCreatorId(project.user_id);
 
-        const userRes = await axios.get("http://localhost:8000/api/user", { headers });
+        const userRes = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/user", { headers });
         setCurrentUserId(userRes.data.id);
         setLoading(false);
       } catch {
@@ -49,13 +49,13 @@ const ProjectMembers = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:8000/api/projects/${id}/members`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`,
         { user_id: selectedUser },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSelectedUser("");
       const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
-      const res = await axios.get(`http://localhost:8000/api/projects/${id}/members`, { headers });
+      const res = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers });
       setMembers(res.data.members);
     } catch {
       alert("Failed to add user. Maybe already a member?");
@@ -67,11 +67,11 @@ const ProjectMembers = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8000/api/projects/${id}/members/${userId}`,
+        ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
-      const res = await axios.get(`http://localhost:8000/api/projects/${id}/members`, { headers });
+      const res = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers });
       setMembers(res.data.members);
     } catch {
       alert("Failed to remove user.");

@@ -16,17 +16,17 @@ const TaskList = () => {
         const token = localStorage.getItem("token");
         const headers = { Authorization: `Bearer ${token}` };
 
-        const userResponse = await axios.get("http://localhost:8000/api/user", { headers });
+        const userResponse = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/user", { headers });
         setUser(userResponse.data);
 
         let tasksResponse;
 
         if (projectId) {
-          tasksResponse = await axios.get(`http://localhost:8000/api/projects/${projectId}/tasks`, { headers });
-          const projectResponse = await axios.get(`http://localhost:8000/api/projects/${projectId}`, { headers });
+          tasksResponse = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${projectId}/tasks`, { headers });
+          const projectResponse = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${projectId}`, { headers });
           setProject(projectResponse.data.project);
         } else {
-          tasksResponse = await axios.get(`http://localhost:8000/api/tasks?assigned_to_me=1`, { headers });
+          tasksResponse = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks?assigned_to_me=1`, { headers });
         }
 
         setTasks(tasksResponse.data.tasks);
@@ -46,7 +46,7 @@ const TaskList = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:8000/api/tasks/${taskId}`, {
+      await axios.delete(` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

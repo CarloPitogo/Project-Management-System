@@ -27,9 +27,9 @@ const ProjectReport = () => {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [projectRes, tasksRes, expendituresRes] = await Promise.all([
-          axios.get(`http://localhost:8000/api/projects/${id}`, { headers }),
-          axios.get(`http://localhost:8000/api/projects/${id}/tasks`, { headers }),
-          axios.get(`http://localhost:8000/api/projects/${id}/expenditures`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/tasks`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers }),
         ]);
 
         setProject(projectRes.data.project);

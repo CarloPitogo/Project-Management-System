@@ -22,10 +22,10 @@ const ProjectDetail = () => {
         const headers = { Authorization: `Bearer ${token}` };
 
         const [projectRes, tasksRes, expRes, userRes] = await Promise.all([
-          axios.get(`http://localhost:8000/api/projects/${id}`, { headers }),
-          axios.get(`http://localhost:8000/api/projects/${id}/tasks`, { headers }),
-          axios.get(`http://localhost:8000/api/projects/${id}/expenditures`, { headers }),
-          axios.get(`http://localhost:8000/api/user`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/tasks`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers }),
+          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/user`, { headers }),
         ]);
 
         const totalCost = expRes.data.reduce((sum, exp) => sum + Number(exp.amount), 0);
@@ -48,7 +48,7 @@ const ProjectDetail = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:8000/api/projects/${id}`, {
+      await axios.delete(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate("/projects");

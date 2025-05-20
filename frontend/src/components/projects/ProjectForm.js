@@ -25,7 +25,7 @@ const ProjectForm = () => {
         try {
           const token = localStorage.getItem("token");
           const response = await axios.get(
-            `http://localhost:8000/api/projects/${id}`,
+            ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
@@ -59,8 +59,8 @@ const ProjectForm = () => {
       const token = localStorage.getItem("token");
       const method = isEditing ? "put" : "post";
       const url = isEditing
-        ? `http://localhost:8000/api/projects/${id}`
-        : "http://localhost:8000/api/projects";
+        ? ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`
+        : " https://f0d5-49-146-202-126.ngrok-free.app/api/projects";
 
       await axios({
         method,

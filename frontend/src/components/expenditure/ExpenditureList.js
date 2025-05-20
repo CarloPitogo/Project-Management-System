@@ -14,8 +14,8 @@ const ExpenditureList = () => {
       const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
-      const projectRes = await axios.get(`http://localhost:8000/api/projects/${id}`, { headers });
-      const userRes = await axios.get("http://localhost:8000/api/user", { headers });
+      const projectRes = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers });
+      const userRes = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/user", { headers });
 
       const userId = userRes.data.id;
       const isOwnerMatch = projectRes.data.project.user_id === userId;
@@ -27,7 +27,7 @@ const ExpenditureList = () => {
         return;
       }
 
-      const response = await axios.get(`http://localhost:8000/api/projects/${id}/expenditures`, { headers });
+      const response = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers });
       setExpenditures(response.data);
       setLoading(false);
       setCheckingOwner(false);
@@ -47,7 +47,7 @@ const ExpenditureList = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:8000/api/expenditures/${expenditureId}`, {
+      await axios.delete(` https://f0d5-49-146-202-126.ngrok-free.app/api/expenditures/${expenditureId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setExpenditures((prev) => prev.filter((exp) => exp.id !== expenditureId));
