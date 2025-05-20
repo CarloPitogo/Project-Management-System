@@ -5,36 +5,39 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// Layout and core components
 import Nav from "./components/layout/Nav";
 import Dashboard from "./components/dashboard";
 import Login from "./components/login";
 import Register from "./components/registration";
+
+// Project components
 import ProjectList from "./components/projects/ProjectList";
 import ProjectForm from "./components/projects/ProjectForm";
 import ProjectDetail from "./components/projects/ProjectDetail";
 import ProjectMembers from "./components/projects/ProjectMembers";
+import ProjectReport from "./components/projects/ProjectReport";
+
+// Task components
 import TaskList from "./components/tasks/TaskList";
 import TaskForm from "./components/tasks/TaskForm";
 import TaskDetail from "./components/tasks/TaskDetail";
+
+// Expenditure components
 import ExpenditureList from "./components/expenditure/ExpenditureList";
 import AddExpenditure from "./components/expenditure/AddExpenditure";
-import ProjectReport from "./components/projects/ProjectReport";
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-
-  // State to track loading status (to show loading spinner until authentication check completes)
   const [loading, setLoading] = useState(true);
 
-  // useEffect hook to check authentication status when the component mounts
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("token");
-
       if (!token) {
         setIsAuthenticated(false);
         setLoading(false);
@@ -42,18 +45,18 @@ function App() {
       }
 
       try {
-        const response = await axios.get("http://localhost:8000/api/user", {
+        const res = await axios.get("http://localhost:8000/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (response?.data?.id) {
+        if (res.data?.id) {
           setIsAuthenticated(true);
-          setUser(response.data);
+          setUser(res.data);
         } else {
           setIsAuthenticated(false);
           localStorage.removeItem("token");
         }
-      } catch (err) {
+      } catch {
         setIsAuthenticated(false);
         localStorage.removeItem("token");
       }
@@ -64,19 +67,29 @@ function App() {
     checkAuth();
   }, []);
 
-  // Function to handle user logout, removing the token from localStorage
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-  };
-
-  // Function to handle user login, storing the token in localStorage
   const handleLogin = (token) => {
     localStorage.setItem("token", token);
     setIsAuthenticated(true);
+
+    // Immediately fetch user info after login
+    axios
+      .get("http://localhost:8000/api/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setUser(res.data))
+      .catch(() => {
+        setUser(null);
+        setIsAuthenticated(false);
+        localStorage.removeItem("token");
+      });
   };
 
-  // While authentication check is loading, display a loading spinner
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -90,12 +103,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* If authenticated, display the navigation bar */}
         {isAuthenticated && <Nav user={user} onLogout={handleLogout} />}
-
         <div className="container py-4">
           <Routes>
-            {/* Dashboard route - only accessible when authenticated */}
             <Route
               path="/"
               element={
@@ -106,14 +116,10 @@ function App() {
                 )
               }
             />
-
-            {/* Login route */}
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
-
-            {/* Registration route */}
             <Route path="/register" element={<Register />} />
 
-            {/* Project routes - Ensure user is authenticated */}
+            {/* Projects */}
             <Route
               path="/projects"
               element={
@@ -133,20 +139,31 @@ function App() {
               }
             />
             <Route
-              path="/projects/:id/members"
-              element={
-                isAuthenticated ? <ProjectMembers /> : <Navigate to="/login" />
-              }
-            />
-
-            <Route
               path="/projects/:id/edit"
               element={
                 isAuthenticated ? <ProjectForm /> : <Navigate to="/login" />
               }
             />
+            <Route
+              path="/projects/:id/members"
+              element={
+                isAuthenticated ? <ProjectMembers /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/projects/:id/report"
+              element={
+                isAuthenticated ? <ProjectReport /> : <Navigate to="/login" />
+              }
+            />
 
-            {/* Task routes - Also require authentication */}
+            {/* Tasks */}
+            <Route
+              path="/tasks"
+              element={
+                isAuthenticated ? <TaskList /> : <Navigate to="/login" />
+              }
+            />
             <Route
               path="/projects/:projectId/tasks"
               element={
@@ -157,12 +174,6 @@ function App() {
               path="/projects/:projectId/tasks/create"
               element={
                 isAuthenticated ? <TaskForm /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/tasks"
-              element={
-                isAuthenticated ? <TaskList /> : <Navigate to="/login" />
               }
             />
             <Route
@@ -178,28 +189,30 @@ function App() {
               }
             />
 
-            {/* Catch-all route for unknown paths, redirecting to home */}
-            <Route path="*" element={<Navigate to="/" />} />
-
+            {/* Expenditures */}
             <Route
               path="/projects/:id/expenditures"
               element={
-                isAuthenticated ? <ExpenditureList /> : <Navigate to="/login" />
+                isAuthenticated ? (
+                  <ExpenditureList />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
             <Route
               path="/projects/:id/expenditures/add"
               element={
-                isAuthenticated ? <AddExpenditure /> : <Navigate to="/login" />
+                isAuthenticated ? (
+                  <AddExpenditure />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
 
-            <Route
-              path="/projects/:id/report"
-              element={
-                isAuthenticated ? <ProjectReport /> : <Navigate to="/login" />
-              }
-            />
+            {/* Catch-all */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>
@@ -207,5 +220,4 @@ function App() {
   );
 }
 
-// Exporting the App component to use it in other parts of the app
 export default App;
