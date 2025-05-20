@@ -8,27 +8,31 @@ const Login = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await fetch("https://f0d5-49-146-202-126.ngrok-free.app/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const response = await fetch("https://f0d5-49-146-202-126.ngrok-free.app/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true" // <-- bypass ngrok warning
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok) {
-        onLogin(data.token);
-        navigate("/");
-      } else {
-        setError(data.message || "Login failed");
-      }
-    } catch (error) {
-      setError("Server error");
+    if (response.ok) {
+      onLogin(data.token);
+      navigate("/");
+    } else {
+      setError(data.message || "Login failed");
     }
-  };
+  } catch (error) {
+    setError("Server error");
+  }
+};
+
 
   return (
     <div

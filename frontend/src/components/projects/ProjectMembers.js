@@ -18,7 +18,11 @@ const ProjectMembers = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const headers = { Authorization: `Bearer ${token}` };
+       const headers = {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
+      };
+
 
         const [membersRes, usersRes, projectRes] = await Promise.all([
           axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers }),
@@ -51,7 +55,7 @@ const ProjectMembers = () => {
       await axios.post(
         ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`,
         { user_id: selectedUser },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` ,"ngrok-skip-browser-warning": "true"} }
       );
       setSelectedUser("");
       const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
@@ -68,7 +72,7 @@ const ProjectMembers = () => {
       const token = localStorage.getItem("token");
       await axios.delete(
         ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` , "ngrok-skip-browser-warning": "true"} }
       );
       const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const res = await axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers });

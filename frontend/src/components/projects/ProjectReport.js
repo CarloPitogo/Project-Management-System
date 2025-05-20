@@ -24,13 +24,18 @@ const ProjectReport = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const headers = { Authorization: `Bearer ${token}` };
+        const headers = {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
+      };
+
 
         const [projectRes, tasksRes, expendituresRes] = await Promise.all([
-          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
-          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/tasks`, { headers }),
-          axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers }),
-        ]);
+        axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
+        axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/tasks`, { headers }),
+        axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers }),
+      ]);
+
 
         setProject(projectRes.data.project);
         setTasks(tasksRes.data.tasks);

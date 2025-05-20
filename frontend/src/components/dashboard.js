@@ -18,18 +18,22 @@ const Dashboard = ({ onLogout }) => {
           return;
         }
 
-        const headers = { Authorization: `Bearer ${token}` };
+        const headers = {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true", // <--- This bypasses the ngrok warning
+      };
 
-        const projectsResponse = await axios.get(
-          " https://f0d5-49-146-202-126.ngrok-free.app/api/projects?limit=5",
-          { headers }
-        );
-        setProjects(projectsResponse.data.projects);
 
-        const tasksResponse = await axios.get(
-          " https://f0d5-49-146-202-126.ngrok-free.app/api/tasks?assigned_to_me=1&limit=5",
-          { headers }
-        );
+       const projectsResponse = await axios.get(
+        "https://f0d5-49-146-202-126.ngrok-free.app/api/projects?limit=5",
+        { headers }
+      );
+
+      const tasksResponse = await axios.get(
+        "https://f0d5-49-146-202-126.ngrok-free.app/api/tasks?assigned_to_me=1&limit=5",
+        { headers }
+      );
+
         setTasks(tasksResponse.data.tasks);
 
         setLoading(false);

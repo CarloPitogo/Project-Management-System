@@ -21,7 +21,11 @@ const RiskIssuePanel = ({ projectId, isOwner }) => {
   const fetchItems = async () => {
     try {
       const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "true"
+    };
+
       const res = await axios.get(
         ` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${projectId}/risks-issues`,
         { headers }

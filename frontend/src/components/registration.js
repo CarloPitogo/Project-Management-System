@@ -11,42 +11,46 @@ const Registration = () => {
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      return;
+  if (password.length < 8) {
+    setError("Password must be at least 8 characters long");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
+
+  try {
+    const response = await fetch("https://f0d5-49-146-202-126.ngrok-free.app/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true", // ⬅️ This bypasses ngrok's warning page
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        password_confirmation: confirmPassword,
+        role,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      navigate("/");
+    } else {
+      setError(data.message || "Registration failed");
     }
+  } catch (error) {
+    setError("Registration failed. Please try again.");
+  }
+};
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await fetch(" https://f0d5-49-146-202-126.ngrok-free.app/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          password_confirmation: confirmPassword,
-          role,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate("/");
-      } else {
-        setError(data.message || "Registration failed");
-      }
-    } catch (error) {
-      setError("Registration failed. Please try again.");
-    }
-  };
 
   return (
     <div
