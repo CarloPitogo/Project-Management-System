@@ -14,16 +14,14 @@ const ProjectMembers = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const isOwner = currentUserId === creatorId;
 
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "ngrok-skip-browser-warning": "true",
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-       const headers = {
-        Authorization: `Bearer ${token}`,
-        "ngrok-skip-browser-warning": "true"
-      };
-
-
         const [membersRes, usersRes, projectRes] = await Promise.all([
           axios.get(`https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers }),
           axios.get("https://f0d5-49-146-202-126.ngrok-free.app/api/users", { headers }),
@@ -39,7 +37,8 @@ const ProjectMembers = () => {
         const userRes = await axios.get("https://f0d5-49-146-202-126.ngrok-free.app/api/user", { headers });
         setCurrentUserId(userRes.data.id);
         setLoading(false);
-      } catch {
+      } catch (err) {
+        console.error("Fetch error:", err);
         setError("Failed to load project members.");
         setLoading(false);
       }
@@ -51,17 +50,17 @@ const ProjectMembers = () => {
   const handleAddMember = async () => {
     if (!selectedUser) return;
     try {
-      const token = localStorage.getItem("token");
       await axios.post(
         `https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`,
         { user_id: selectedUser },
-        { headers: { Authorization: `Bearer ${token}` ,"ngrok-skip-browser-warning": "true"} }
+        { headers }
       );
       setSelectedUser("");
-      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const res = await axios.get(`https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers });
+      console.log("Updated members:", res.data);
       setMembers(res.data.members);
-    } catch {
+    } catch (err) {
+      console.error("Add error:", err);
       alert("Failed to add user. Maybe already a member?");
     }
   };
@@ -69,15 +68,15 @@ const ProjectMembers = () => {
   const handleRemoveMember = async (userId) => {
     if (!window.confirm("Remove this member from the project?")) return;
     try {
-      const token = localStorage.getItem("token");
       await axios.delete(
         `https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` , "ngrok-skip-browser-warning": "true"} }
+        { headers }
       );
-      const headers = { Authorization: `Bearer ${localStorage.getItem("token")}` };
       const res = await axios.get(`https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/members`, { headers });
+      console.log("Updated members:", res.data);
       setMembers(res.data.members);
-    } catch {
+    } catch (err) {
+      console.error("Remove error:", err);
       alert("Failed to remove user.");
     }
   };
@@ -145,28 +144,29 @@ const ProjectMembers = () => {
         <div className="card shadow-sm" style={{ backgroundColor: "#fffaf3" }}>
           <div className="card-header fw-semibold">📋 Current Members</div>
           <ul className="list-group list-group-flush">
-            {members.map((member) => (
-              <li
-                key={member.id}
-                className="list-group-item d-flex justify-content-between align-items-center"
-              >
-                <span>
-                  {member.name} ({member.email})
-                  {member.id === creatorId && (
-                    <span className="badge bg-primary ms-2">Owner</span>
-                  )}
-                </span>
-                <button
-                  className="btn btn-sm text-white"
-                  style={{ backgroundColor: "#a47148", border: "none" }}
-                  onClick={() => handleRemoveMember(member.id)}
-                  disabled={!isOwner || member.id === creatorId}
+            {Array.isArray(members) && members.length > 0 ? (
+              members.map((member) => (
+                <li
+                  key={member.id}
+                  className="list-group-item d-flex justify-content-between align-items-center"
                 >
-                  Remove
-                </button>
-              </li>
-            ))}
-            {members.length === 0 && (
+                  <span>
+                    {member.name} ({member.email})
+                    {member.id === creatorId && (
+                      <span className="badge bg-primary ms-2">Owner</span>
+                    )}
+                  </span>
+                  <button
+                    className="btn btn-sm text-white"
+                    style={{ backgroundColor: "#a47148", border: "none" }}
+                    onClick={() => handleRemoveMember(member.id)}
+                    disabled={!isOwner || member.id === creatorId}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))
+            ) : (
               <li className="list-group-item">No members yet.</li>
             )}
           </ul>
