@@ -10,12 +10,25 @@ const ExpenditureList = () => {
   const [checkingOwner, setCheckingOwner] = useState(true);
 
   const fetchExpenditures = useCallback(async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("You are not logged in.");
+      setLoading(false);
+      setCheckingOwner(false);
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
       const headers = { Authorization: `Bearer ${token}` };
 
-      const projectRes = await axios.get(`https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers });
-      const userRes = await axios.get("https://f0d5-49-146-202-126.ngrok-free.app/api/user", { headers });
+      const projectRes = await axios.get(
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`,
+        { headers }
+      );
+      const userRes = await axios.get(
+        "https://f0d5-49-146-202-126.ngrok-free.app/api/user",
+        { headers }
+      );
 
       const userId = userRes.data.id;
       const isOwnerMatch = projectRes.data.project.user_id === userId;
@@ -27,11 +40,15 @@ const ExpenditureList = () => {
         return;
       }
 
-      const response = await axios.get(`https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`, { headers });
+      const response = await axios.get(
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}/expenditures`,
+        { headers }
+      );
       setExpenditures(response.data);
       setLoading(false);
       setCheckingOwner(false);
-    } catch {
+    } catch (err) {
+      console.error(err.response?.data || err.message);
       setError("Failed to load expenditures or verify ownership.");
       setLoading(false);
       setCheckingOwner(false);
@@ -47,18 +64,28 @@ const ExpenditureList = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`https://f0d5-49-146-202-126.ngrok-free.app/api/expenditures/${expenditureId}`, {
-        headers: { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' },
-      });
+      await axios.delete(
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/expenditures/${expenditureId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       setExpenditures((prev) => prev.filter((exp) => exp.id !== expenditureId));
-    } catch {
+    } catch (err) {
+      console.error(err.response?.data || err.message);
       alert("Failed to delete expenditure.");
     }
   };
 
   if (checkingOwner || loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh", backgroundColor: "#f7efe5" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh", backgroundColor: "#f7efe5" }}
+      >
         <div className="text-center">
           <div className="spinner-border text-primary" />
           <div className="mt-2">Checking access...</div>
