@@ -18,24 +18,28 @@ const TaskDetail = () => {
 
   useEffect(() => {
      if (taskId === "create") return;
-    const fetchTask = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`,
-          { headers: { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' } }
-        );
-
-        console.log("TASK API RESPONSE", response.data); 
-
-        setTask(response.data.task);
-        setLoading(false);
-      } catch (err) {
-        console.error(err); 
-        setError("Failed to fetch task details.");
-        setLoading(false);
+   const fetchTask = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
       }
-    };
+    );
+
+    console.log("TASK RESPONSE", response.data); // ✅ Debug line
+    setTask(response.data.task);
+    setLoading(false);
+  } catch (err) {
+    console.error("Error fetching task:", err); // ✅ Add this line
+    setError("Failed to fetch task details.");
+    setLoading(false);
+  }
+};
 
 
     const fetchUser = async () => {
