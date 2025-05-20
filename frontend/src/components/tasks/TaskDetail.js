@@ -31,11 +31,11 @@ const TaskDetail = () => {
       }
     );
 
-    console.log("TASK RESPONSE", response.data); // ✅ Debug line
+    console.log("TASK RESPONSE", response.data); 
     setTask(response.data.task);
     setLoading(false);
   } catch (err) {
-    console.error("Error fetching task:", err); // ✅ Add this line
+    console.error("Error fetching task:", err); 
     setError("Failed to fetch task details.");
     setLoading(false);
   }
@@ -45,7 +45,7 @@ const TaskDetail = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/user", {
+        const res = await axios.get("https://f0d5-49-146-202-126.ngrok-free.app/api/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(res.data);
@@ -58,7 +58,7 @@ const TaskDetail = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/files`,
+          `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/files`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setFiles(response.data.files);
@@ -77,7 +77,7 @@ const TaskDetail = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/comments`,
+          `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/comments`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setComments(response.data.comments);
@@ -96,7 +96,7 @@ const TaskDetail = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`,
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`,
         { ...task, status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -110,7 +110,7 @@ const TaskDetail = () => {
     if (!window.confirm("Are you sure you want to delete this task?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`, {
+      await axios.delete(`https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate(`/projects/${task.project_id}/tasks`);
@@ -126,7 +126,7 @@ const TaskDetail = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/comments`,
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/comments`,
         { comment: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -147,7 +147,7 @@ const TaskDetail = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        ` https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/files`,
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/tasks/${taskId}/files`,
         formData,
         {
           headers: {
@@ -168,7 +168,7 @@ const TaskDetail = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        ` https://f0d5-49-146-202-126.ngrok-free.app/api/files/${fileId}/download`,
+        `https://f0d5-49-146-202-126.ngrok-free.app/api/files/${fileId}/download`,
         {
           headers: { Authorization: `Bearer ${token}` },
           responseType: "blob",
