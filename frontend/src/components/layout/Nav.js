@@ -14,7 +14,7 @@ const Navigation = ({ user, onLogout }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(" https://f0d5-49-146-202-126.ngrok-free.app/api/notifications", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' },
         });
         const data = response.data;
         if (data.length > notifications.length) setHasNew(true);

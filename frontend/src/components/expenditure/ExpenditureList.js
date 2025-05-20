@@ -48,7 +48,7 @@ const ExpenditureList = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(` https://f0d5-49-146-202-126.ngrok-free.app/api/expenditures/${expenditureId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' },
       });
       setExpenditures((prev) => prev.filter((exp) => exp.id !== expenditureId));
     } catch {

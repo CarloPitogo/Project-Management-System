@@ -27,7 +27,7 @@ const TaskForm = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const headers = { Authorization: `Bearer ${token}` };
+        const headers = { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' };
 
         let resolvedProjectId = projectId;
 

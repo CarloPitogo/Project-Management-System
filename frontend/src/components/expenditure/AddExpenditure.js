@@ -25,7 +25,7 @@ const AddExpenditure = () => {
           description,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}`, 'ngrok-skip-browser-warning': 'true' },
         }
       );
       navigate(`/projects/${id}/expenditures`);

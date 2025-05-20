@@ -19,7 +19,7 @@ const ProjectDetail = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const headers = { Authorization: `Bearer ${token}` };
+        const headers = { Authorization: `Bearer ${token}` ,'ngrok-skip-browser-warning': 'true'};
 
         const [projectRes, tasksRes, expRes, userRes] = await Promise.all([
           axios.get(` https://f0d5-49-146-202-126.ngrok-free.app/api/projects/${id}`, { headers }),
