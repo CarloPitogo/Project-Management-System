@@ -16,24 +16,25 @@ return [
     */
 
       
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+   'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'], // Allow all HTTP methods
 
     'allowed_origins' => [
-        'http://localhost:3000',
-        'https://your-vercel-app.vercel.app',   
-        'https://*.ngrok-free.app',            
+        'http://localhost:3000',         // local React frontend
+        'http://localhost:5173',         // Vite dev server
+        'https://*.ngrok-free.app',      // allow all ngrok domains
+        'https://your-vercel-app.vercel.app', // if deployed to Vercel
     ],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'], // Allow all headers
 
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => true, // Needed if you use tokens/cookies
 
 ];
