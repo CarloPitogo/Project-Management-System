@@ -20,9 +20,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'https://project-management-system-beta-seven.vercel.app',
-        'http://localhost:3000', // optional for local dev
-        'https://*.ngrok-free.app', // optional wildcard
+    'https://abcd-12-34-56-78.ngrok-free.app',
+    'https://project-management-system-beta-seven.vercel.app',
     ],
 
     'allowed_origins_patterns' => [],
