@@ -15,7 +15,7 @@ const Login = ({ onLogin }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true" // <-- bypass ngrok warning
+        "ngrok-skip-browser-warning": "true" 
       },
       body: JSON.stringify({ email, password }),
     });

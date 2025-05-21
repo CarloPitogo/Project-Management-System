@@ -15,11 +15,15 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+      'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'https://project-management-system-beta-seven.vercel.app',
+        'http://localhost:3000', // optional for local dev
+        'https://*.ngrok-free.app', // optional wildcard
+    ],
 
     'allowed_origins_patterns' => [],
 
